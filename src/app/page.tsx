@@ -1,101 +1,56 @@
+'use client'
 import Image from "next/image";
+import { fetchMealData } from "@/utils/functions";
+import { useUserContext, useSavedRecipesContext } from "@/utils/contexts";
+import { RecipeType, UserContextType, SavedRecipesContextType } from "@/utils/types";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    const { user } = useUserContext() as UserContextType
+    const {savedRecipes, setSavedRecipes} = useSavedRecipesContext() as SavedRecipesContextType
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    const [recipes, setRecipes] = useState<RecipeType[] | null>(null)
+
+    useEffect(() => {
+
+        const fetchMealData = async () => {
+            try {
+                if (user) {
+                    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${user.category}`)
+                    const data = await response.json()
+                    setRecipes(data.meals.slice(0, 6))
+                }
+            } catch (error) {
+                console.log(`Darn it. Error: ${error}`);
+            }
+        }
+        // console.log(recipes);
+        fetchMealData()
+    }, [])
+
+    const saveRecipe = (meal: string) => {
+        setSavedRecipes((prevRecipes: string[]) => {
+            if (prevRecipes.includes(meal)) {
+                return prevRecipes;
+            }
+
+            return [...prevRecipes, meal];
+        });
+    };
+
+    return (
+        <div className="text-center block">
+            {user && <h2 className="m-5 text-xl">Welcome {user.name}</h2>}
+            <h3>Here are some recipes from your favorite category:</h3>
+            <div className="flex flex-col items-center md:flex-row justify-center flex-wrap gap-10 p-10">
+                {recipes && recipes.map((meal: RecipeType, index) =>
+                    <div key={index} className="flex flex-col w-[250px]">
+                        <Link className="flex flex-col items-center my-1 font-bold" href={`/recipe/${meal.idMeal}`}> {meal.strMeal} <img className="rounded-lg" src={meal.strMealThumb} alt="meal" height="auto" width="250px" /></Link>
+                        <button className={`py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl ${savedRecipes.includes(meal.idMeal) && 'text-green-400'}`} onClick={() => saveRecipe(meal.idMeal)}>{savedRecipes.includes(meal.idMeal) ? "Saved!" : "Save Recipe"}</button>
+                    </div>
+                )}
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
