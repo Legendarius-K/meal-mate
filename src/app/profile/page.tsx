@@ -4,6 +4,7 @@ import { UserContextType, SavedRecipesContextType, RecipeType } from "@/utils/ty
 import { useEffect, useState } from "react";
 import { fetchSingleMeal } from "@/utils/functions";
 import Link from "next/link";
+import MealCard from "@/components/MealCard";
 
 const Profile = () => {
     const { user } = useUserContext() as UserContextType;
@@ -38,16 +39,8 @@ const Profile = () => {
             <h2 className="text-lg text-center">Here are your saved recipes!</h2>
 
             <div className="flex flex-wrap justify-center items-center gap-10">
-                {fetchedRecipes ? (
-                    fetchedRecipes.map((recipe, index) => (
-                        <div key={index} className="flex flex-col items-center my-10 w-[250px]">
-                            <Link href={`/recipe/${recipe.idMeal}`}className=" text-center">
-                                <h3 className="text-lg font-bold">{recipe.strMeal}</h3>
-                                <img src={recipe.strMealThumb} alt={recipe.strMeal} className="rounded-lg py-1" width="250px" />
-                            </Link>
-                            <button onClick={() => removeRecipe(recipe.idMeal)} className="py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl">Remove Recipe</button>
-                        </div>
-                    ))
+                {fetchedRecipes ? fetchedRecipes?.map((item, index) => <MealCard {...item} removeBtn={true} />
+                
                 ) : (
                     <p>No saved recipes found.</p>
                 )}
