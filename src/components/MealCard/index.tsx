@@ -7,12 +7,13 @@ type MealCardProps = {
     idMeal: string
     strMeal: string
     strMealThumb: string
+    button?: boolean
     removeBtn: boolean
     // savedRecipes: string[]
     // saveRecipe: (meal: string) => void
 }
 
-const MealCard = ({ idMeal, strMeal, strMealThumb, removeBtn }: MealCardProps) => {
+const MealCard = ({ idMeal, strMeal, strMealThumb, button, removeBtn }: MealCardProps) => {
     const { savedRecipes, setSavedRecipes } = useSavedRecipesContext() as SavedRecipesContextType
 
 
@@ -36,8 +37,12 @@ const MealCard = ({ idMeal, strMeal, strMealThumb, removeBtn }: MealCardProps) =
             <div className="flex flex-col w-[250px]">
                 <Link className="flex flex-col items-center my-1 font-bold" href={`/recipe/${idMeal}`}> {strMeal} <img className="rounded-lg" src={strMealThumb} alt="meal" height="auto" width="250px" /></Link>
 
-                {!removeBtn && <button className={`py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl ${savedRecipes.includes(idMeal) && 'text-green-400'}`} onClick={() => saveRecipe(idMeal)}>{savedRecipes.includes(idMeal) ? "Saved!" : "Save Recipe"}</button>}
-                {removeBtn && <button onClick={() => removeRecipe(idMeal)} className="py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl">Remove Recipe</button>}
+                {button && (
+                    <>
+                        {removeBtn && <button onClick={() => removeRecipe(idMeal)} className="py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl">Remove Recipe</button>}
+                        {!removeBtn && <button className={`py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl ${savedRecipes.includes(idMeal) && 'text-green-400'}`} onClick={() => saveRecipe(idMeal)}>{savedRecipes.includes(idMeal) ? "Saved!" : "Save Recipe"}</button>}
+                    </>
+                )}
 
             </div>
 

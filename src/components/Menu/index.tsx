@@ -1,12 +1,14 @@
 import Link from "next/link";
-import { useUserContext } from "@/utils/contexts";
-import { UserContextType } from "@/utils/types";
+import { useSavedRecipesContext, useUserContext } from "@/utils/contexts";
+import { SavedRecipesContextType, UserContextType } from "@/utils/types";
 
 const Menu = () => {
     const {setUser} = useUserContext() as UserContextType 
+    const { setSavedRecipes } = useSavedRecipesContext() as SavedRecipesContextType
 
     const logOut = () => {
         setUser(null)
+        setSavedRecipes([])
     }
 
     return (

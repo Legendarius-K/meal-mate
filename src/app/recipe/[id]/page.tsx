@@ -24,7 +24,6 @@ const RecipePage = ({ params }: { params: { id: string } }) => {
                 console.error(error);
             }
         };
-
         fetchRecipe();
     }, [id]);
 

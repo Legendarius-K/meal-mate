@@ -6,7 +6,7 @@ export type UserType = {
 
 export type UserContextType = {
     user: UserType | null,
-    setUser: (user: UserType | null) => void
+    setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
 }
 
 export type SavedRecipesContextType = {

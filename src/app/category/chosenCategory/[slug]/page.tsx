@@ -1,4 +1,5 @@
 'use client'
+import MealCard from "@/components/MealCard";
 import { useSavedRecipesContext } from "@/utils/contexts";
 import { RecipeType, SavedRecipesContextType } from "@/utils/types";
 import Link from "next/link";
@@ -40,12 +41,7 @@ const ChosenCategory = ({ params }: { params: { slug: string } }) => {
         <section className="p-5">
             <h2 className="text-center text-3xl font-bold">{slug}</h2>
             <div className="flex flex-col items-center md:flex-row justify-center flex-wrap gap-10 p-10">
-            {categoryMeals && categoryMeals.map((meal: RecipeType, index) =>
-                <div key={index} className="flex flex-col w-[250px]">
-                    <Link className="flex flex-col items-center my-1 font-bold" href={`/recipe/${meal.idMeal}`}> {meal.strMeal} <img className="rounded-lg" src={meal.strMealThumb} alt="meal" height="auto" width="250px" /></Link>
-                    <button className={`py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl ${savedRecipes.includes(meal.idMeal) && 'text-green-400'}`} onClick={() => saveRecipe(meal.idMeal)}>{savedRecipes.includes(meal.idMeal) ? "Saved!" : "Save Recipe"}</button>
-                </div>
-            )}
+                {categoryMeals && categoryMeals.map((item, index) => <MealCard key={index} {...item} removeBtn={false} button={true} />)}
             </div>
         </section>
     )

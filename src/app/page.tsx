@@ -45,16 +45,8 @@ export default function Home() {
             {user && <h2 className="m-5 text-xl">Welcome {user.name}</h2>}
             <h3>Here are some recipes from your favorite category:</h3>
             <div className="flex flex-col items-center md:flex-row justify-center flex-wrap gap-10 p-10">
-                {recipes && recipes?.map((item, index) => <MealCard key={index} {...item} removeBtn={false}/>)}
+                {recipes && recipes?.map((item, index) => <MealCard key={index} {...item} removeBtn={false} button={true}/>)}
             </div>
-            {/* <div className="flex flex-col items-center md:flex-row justify-center flex-wrap gap-10 p-10">
-                {recipes && recipes.map((meal: RecipeType, index) =>
-                    <div key={index} className="flex flex-col w-[250px]">
-                        <Link className="flex flex-col items-center my-1 font-bold" href={`/recipe/${meal.idMeal}`}> {meal.strMeal} <img className="rounded-lg" src={meal.strMealThumb} alt="meal" height="auto" width="250px" /></Link>
-                        <button className={`py-2 px-10 bg-neutral-700 text-white text-lg rounded-xl ${savedRecipes.includes(meal.idMeal) && 'text-green-400'}`} onClick={() => saveRecipe(meal.idMeal)}>{savedRecipes.includes(meal.idMeal) ? "Saved!" : "Save Recipe"}</button>
-                    </div>
-                )}
-            </div> */}
         </div>
     );
 }
