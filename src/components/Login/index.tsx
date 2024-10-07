@@ -1,8 +1,8 @@
 'use client'
-import { useSavedRecipesContext, useUserContext } from "@/utils/contexts";
+import { useUserContext } from "@/utils/contexts";
 import { SetStateAction, useState } from "react";
 import { registeredUsers } from "@/utils/user";
-import { SavedRecipesContextType, UserContextType, UserType } from "@/utils/types";
+import { UserContextType, UserType } from "@/utils/types";
 
 const Login = () => {
     const [userName , setUserName] = useState<string | null>(null)

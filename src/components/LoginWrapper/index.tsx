@@ -20,7 +20,6 @@ const LoginWrapper = ({ children }: { children: React.ReactNode }) => {
                 : (
                     <div className="flex flex-col w-full">
                         <Menu />
-                        {/* <p>Hi {user.name}</p> */}
                         {children}
                     </div>
                 )}

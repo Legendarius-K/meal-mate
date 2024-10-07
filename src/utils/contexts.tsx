@@ -7,11 +7,7 @@ const UserContext = createContext<UserContextType | null>(null)
 const SavedRecipesContext = createContext<SavedRecipesContextType | null>(null);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<UserType | null>({
-        name: "Darius",
-        category: "Vegetarian",
-        recipes: []
-    })
+    const [user, setUser] = useState<UserType | null>(null)
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

@@ -1,6 +1,3 @@
-'use client'
-import { useUserContext } from "@/utils/contexts";
-import { UserContextType } from "@/utils/types";
 
 const Header = () => {
 

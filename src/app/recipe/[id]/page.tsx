@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation'; // Import from 'next/navigation' in Next.js 13+
+import { useRouter } from 'next/navigation'; 
 import { useSavedRecipesContext } from "@/utils/contexts";
 import { RecipeType, SavedRecipesContextType } from "@/utils/types";
 
@@ -29,22 +29,19 @@ const RecipePage = ({ params }: { params: { id: string } }) => {
 
     useEffect(() => {
         if (recipe) {
-            // Extract ingredient keys and values
             const ingredientKeys = Object.keys(recipe).filter(key => key.startsWith("strIngredient"));
             const ingredientValues = ingredientKeys
                 .map(key => recipe[key as keyof RecipeType] as string)
                 .filter(value => value && value.trim() !== "");
 
-            // Extract measure keys and values
             const measureKeys = Object.keys(recipe).filter(key => key.startsWith("strMeasure"));
             const measureValues = measureKeys
                 .map(key => recipe[key as keyof RecipeType] as string)
                 .filter(value => value && value.trim() !== "");
 
-            // Combine ingredients and measures
             const combined = ingredientValues.map((ingredient, index) => ({
                 ingredient,
-                measure: measureValues[index] || "" // Match measure to ingredient by index, fallback to empty string
+                measure: measureValues[index] || "" 
             }));
 
             setIngredientsWithMeasures(combined);
@@ -57,7 +54,7 @@ const RecipePage = ({ params }: { params: { id: string } }) => {
                 return prevRecipes;
             }
 
-            return [...prevRecipes, meal];
+            return [meal, ...prevRecipes];
         });
     };
 

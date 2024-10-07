@@ -1,12 +1,8 @@
 'use client'
 import Image from "next/image";
-import { fetchMealData } from "@/utils/functions";
-import { useUserContext } from "@/utils/contexts";
-import { RecipeType, UserContextType } from "@/utils/types";
+import { RecipeType } from "@/utils/types";
 import { SetStateAction, useEffect, useState } from "react";
 import glass from '../../../public/glass.png'
-import MealCard from "../MealCard";
-
 
 const WelcomeMeal = () => {
     const [meal, setMeal] = useState<RecipeType[] | null>(null)
@@ -41,15 +37,15 @@ const WelcomeMeal = () => {
     }
 
     return (
-        <section className="my-10 flex flex-col items-center gap-5">
-            <h2>Welcome to Meal Mate! Log in to unlock all the features, or search for e recipe below.</h2>
-            <label className="text-sm" htmlFor="meal">Search for a meal</label>
-            <div className="my-5 flex  justify-center gap-0">
+        <section className="my-10 flex flex-col items-center gap-5 p-4">
+            <h2>Welcome to Meal Mate! Log in to unlock all the features, or search for a meal below.</h2>
+            <label className="text-sm mt-5" htmlFor="meal">Search for a meal</label>
+            <div className="mb-5 flex  justify-center gap-0">
                 <input onChange={handleChange} placeholder="Enter meal ..." className="border-2 border-neutral-400 border-l-2 px-2 rounded-l-full" id="meal" type="text" />
                 <button onClick={handleClick} className="text-neutral-800 py-2 px-2 bg-neutral-400 shadow-2xl rounded-r-full" ><Image className="w-[25px]" src={glass} alt="glass" /></button>
             </div>
             <div className="flex flex-wrap justify-center items-center gap-10">
-                {meal && meal.map((item, index) => <MealCard key={index} {...item} removeBtn={false} button={false} />)}
+                {meal && meal.map((item, index) => <div key={index} className="flex flex-col items-center my-1 font-bold"> {item.strMeal} <img className="rounded-lg" src={item.strMealThumb} alt={item.strMeal} height="auto" width="250px" /></div>)}
             </div>
         </section>
     )

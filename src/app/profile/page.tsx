@@ -7,8 +7,7 @@ import MealCard from "@/components/MealCard";
 
 const Profile = () => {
     const { user } = useUserContext() as UserContextType;
-    const { savedRecipes, setSavedRecipes } = useSavedRecipesContext() as SavedRecipesContextType;
-
+    const { savedRecipes } = useSavedRecipesContext() as SavedRecipesContextType;
     const [fetchedRecipes, setFetchedRecipes] = useState<RecipeType[]>([]); 
 
     useEffect(() => {
@@ -25,13 +24,8 @@ const Profile = () => {
                 setFetchedRecipes([]);
             }
         };
-
         fetchSavedRecipes();
     }, [savedRecipes]);
-
-    const removeRecipe = (meal: string) => {
-        setSavedRecipes((prevRecipes: string[]) => prevRecipes.filter((recipe) => recipe !== meal));
-    };
 
     return (
         <section className="p-5">

@@ -9,12 +9,9 @@ import MealCard from "@/components/MealCard";
 
 export default function Home() {
     const { user } = useUserContext() as UserContextType
-    const { savedRecipes, setSavedRecipes } = useSavedRecipesContext() as SavedRecipesContextType
-
     const [recipes, setRecipes] = useState<RecipeType[] | null>(null)
 
     useEffect(() => {
-
         const fetchMealData = async () => {
             try {
                 if (user) {
@@ -26,22 +23,11 @@ export default function Home() {
                 console.log(`Darn it. Error: ${error}`);
             }
         }
-        // console.log(recipes);
         fetchMealData()
     }, [])
 
-    const saveRecipe = (meal: string) => {
-        setSavedRecipes((prevRecipes: string[]) => {
-            if (prevRecipes.includes(meal)) {
-                return prevRecipes;
-            }
-
-            return [...prevRecipes, meal];
-        });
-    };
-
     return (
-        <div className="text-center block">
+        <div className="flex flex-col items-center p-4">
             {user && <h2 className="m-5 text-xl">Welcome {user.name}</h2>}
             <h3>Here are some recipes from your favorite category:</h3>
             <div className="flex flex-col items-center md:flex-row justify-center flex-wrap gap-10 p-10">
